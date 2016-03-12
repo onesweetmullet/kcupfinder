@@ -17,7 +17,7 @@ describe("amazon api tests", function() {
         client.itemSearch({
             keywords: 'kcup',
             ProductGroup: 'Grocery',
-            itemPage:'2'
+            itemPage:'5'
         }, function(err, results, response) {
             if (err)
                 console.log('err = ' + err);
@@ -27,16 +27,25 @@ describe("amazon api tests", function() {
                 //console.log('response = ' + JSON.stringify(response));
 
                 // calculate unit price
+
+                console.log('Total pages found: ' + response.TotalPages[0]);
+                console.log('Total items found: ' + response.TotalResults[0]);
+                console.log('');
+
                 for (var i = 0; i < results.length; i++) {
                     for (var j = 0; j < results[i].ItemAttributes.length; j++) {
 
                         var numberPattern = /\d+/g;
-                        var title, formattedPrice, currencyCode, currencyPrefix, price, quantity, pricePerUnit;
+                        var title, formattedPrice, currencyCode, currencyPrefix, price, quantity, pricePerUnit, feature;
 
 
                         try {
                             title = results[i].ItemAttributes[j].Title;
                         } catch (ex) {}
+
+                        try {
+                            feature = results[i].ItemAttributes[j].Feature;
+                        } catch(ex) {}
 
                         try {
                             formattedPrice = results[i].ItemAttributes[j].ListPrice[0].FormattedPrice;
@@ -67,6 +76,7 @@ describe("amazon api tests", function() {
 
 
                         console.log('Title: ' + title);
+                        console.log('Description: ' + feature);
                         console.log('Price: ' + currencyPrefix + price);
                         console.log('Quantity: ' + quantity);
                         console.log('Price per Unit: ' + currencyPrefix + pricePerUnit);
