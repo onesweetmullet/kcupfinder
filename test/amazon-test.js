@@ -1,14 +1,15 @@
 var expect = require('chai').expect;
 var amazon = require('amazon-product-api');
+require('dotenv').config();
 
 describe("amazon api tests", function() {
     var client;
 
     before(function() {
         client = amazon.createClient({
-            awsId: "AKIAIC7PZC3NLJZEHPVA",
-            awsSecret: "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",
-            awsTag: "aws Tag"
+            awsId: process.env.AWS_ID,
+            awsSecret: process.env.AWS_SECRET,
+            awsTag: process.env.AWS_TAG
         });
     });
 
